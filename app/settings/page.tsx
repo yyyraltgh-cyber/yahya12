@@ -8,7 +8,7 @@ import { LoadingScreen } from "@/components/layout/loading-screen";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "@/lib/i18n/locale-context";
 import { SettingsPanel } from "./settings-panel";
-
+import { QuickLinksCard } from "@/components/settings/quick-links";
 type Theme = "system" | "light" | "dark";
 
 export default function SettingsPage() {
@@ -40,6 +40,7 @@ export default function SettingsPage() {
   return (
     <AppShell title={t("nav.settings")} userId={user.id}>
       <div className="mx-auto flex max-w-2xl flex-col gap-4">
+        <QuickLinksCard /
         <Card>
           <h2 className="mb-4 font-medium">{t("settings.account")}</h2>
           <div className="flex flex-col gap-2 text-sm">

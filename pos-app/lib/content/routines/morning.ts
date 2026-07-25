@@ -193,8 +193,6 @@ export const morningRoutines: RoutineTemplate[] = [
     xpReward: 26,
   },
 
-  MORNINGEOF
-echo "بداية morning.ts (المبتدئ + المتوسط) جاهزة — أُكمل الآن بالتحقق قبل الإرسال"  // ===== Advanced (minLevel 35, 40-60 min) =====
 
   // warmup: "الفجر الكامل ليس عبئًا — إنه استثمار في بقية يومك"
   // completion: "جمعت الروح والجسد والعقل في ساعة واحدة — بداية متكاملة"
