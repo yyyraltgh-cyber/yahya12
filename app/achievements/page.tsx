@@ -5,34 +5,37 @@ import { createClient } from "@/lib/supabase/client";
 import { useAuthGuard } from "@/lib/use-auth-guard";
 import { AppShell } from "@/components/layout/app-shell";
 import { LoadingScreen } from "@/components/layout/loading-screen";
-import { AchievementGrid } from "./achievement-grid";
-import { levelProgress } from "@/lib/gamification";
-import { useTranslation } from "@/lib/i18n/locale-context";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "@/lib/i18n/locale-context";
+import { levelProgress } from "@/lib/gamification";
 import type { Achievement } from "@/lib/types/database";
+import { AchievementGrid } from "./achievement-grid";
+import { ReflectionCard } from "@/components/today/reflection-card";
 
 export default function AchievementsPage() {
   const { user, loading } = useAuthGuard();
   const { t } = useTranslation();
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
+  const [ready, setReady] = useState(false);
   const [xp, setXp] = useState(0);
   const [streak, setStreak] = useState({ current: 0, longest: 0 });
-  const [ready, setReady] = useState(false);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (!user) return;
     const supabase = createClient();
     (async () => {
-      const [{ data: catalog }, { data: unlocked }, { data: profile }] = await Promise.all([
-        supabase.from("achievements").select("*").order("sort_order"),
-        supabase.from("user_achievements").select("achievement_id").eq("user_id", user.id),
+      const [{ data: profile }, { data: allAchievements }, { data: unlocked }] = await Promise.all([
         supabase.from("profiles").select("xp,current_streak,longest_streak").eq("id", user.id).single(),
+        supabase.from("achievements").select("*").order("tier"),
+        supabase.from("user_achievements").select("achievement_id").eq("user_id", user.id),
       ]);
-      setAchievements(catalog ?? []);
+      if (profile) {
+        setXp(profile.xp ?? 0);
+        setStreak({ current: profile.current_streak ?? 0, longest: profile.longest_streak ?? 0 });
+      }
+      setAchievements(allAchievements ?? []);
       setUnlockedIds(new Set((unlocked ?? []).map((u) => u.achievement_id)));
-      setXp(profile?.xp ?? 0);
-      setStreak({ current: profile?.current_streak ?? 0, longest: profile?.longest_streak ?? 0 });
       setReady(true);
     })();
   }, [user]);
@@ -47,7 +50,7 @@ export default function AchievementsPage() {
         <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
           <Card className="text-center">
             <p className="text-sm text-[var(--color-text-muted)]">{t("achievements.level")}</p>
-            <p className="mt-1 text-3xl font-bold text-[var(--color-primary)]">{level}</p>
+            <p className="font-display mt-1 text-3xl font-bold text-[var(--color-primary)]">{level}</p>
             <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-border)]">
               <div className="h-full rounded-full bg-[var(--color-primary)]" style={{ width: `${progressPct}%` }} />
             </div>
@@ -66,6 +69,8 @@ export default function AchievementsPage() {
             </p>
           </Card>
         </div>
+
+        <ReflectionCard userId={user.id} xp={xp} longestStreak={streak.longest} />
 
         <AchievementGrid achievements={achievements} unlockedIds={unlockedIds} />
       </div>

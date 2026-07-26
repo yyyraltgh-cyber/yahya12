@@ -11,7 +11,7 @@ export default function HomePage() {
         <div className="h-14 w-14 rounded-2xl bg-[var(--color-primary)] flex items-center justify-center text-2xl font-bold">
           P
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t("nav.appName")}</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">{t("nav.appName")}</h1>
         <p className="max-w-md text-[var(--color-text-muted)]">{t("misc.tagline")}</p>
       </div>
       <div className="flex gap-3">

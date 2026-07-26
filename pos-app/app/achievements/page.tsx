@@ -48,7 +48,7 @@ export default function AchievementsPage() {
         <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
           <Card className="text-center">
             <p className="text-sm text-[var(--color-text-muted)]">{t("achievements.level")}</p>
-            <p className="mt-1 text-3xl font-bold text-[var(--color-primary)]">{level}</p>
+            <p className="font-display mt-1 text-3xl font-bold text-[var(--color-primary)]">{level}</p>
             <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-border)]">
               <div className="h-full rounded-full bg-[var(--color-primary)]" style={{ width: `${progressPct}%` }} />
             </div>

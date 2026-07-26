@@ -119,7 +119,7 @@ export function GamificationProvider({
           >
             <span className="text-2xl">{t.icon}</span>
             <div>
-              <p className="text-sm font-semibold">{t.title}</p>
+              <p className="font-display text-sm font-semibold">{t.title}</p>
               {t.subtitle && <p className="text-xs text-[var(--color-text-muted)]">{t.subtitle}</p>}
             </div>
           </div>

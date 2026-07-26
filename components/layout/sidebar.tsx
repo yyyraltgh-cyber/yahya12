@@ -79,7 +79,7 @@ export function Sidebar() {
           <div className="h-8 w-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center font-bold text-white">
             P
           </div>
-          <span className="font-semibold">{t("nav.appName")}</span>
+          <span className="font-display font-semibold">{t("nav.appName")}</span>
         </div>
 
         {primary.map((l) => item(l, pathname.startsWith(l.href)))}
