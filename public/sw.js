@@ -1,5 +1,5 @@
 // Minimal offline-first service worker for Personal OS.
-const CACHE = "personal-os-v2";
+const CACHE = "personal-os-v3";
 const CORE = ["/", "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {
